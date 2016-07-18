@@ -1,0 +1,29 @@
+<html>
+<head>
+</head>
+<body>
+The Airware Transaction Server is a pure java middleware application 
+which connects Airware<sup><font size="1">TM</font></sup> to 
+existing Computer Reservation Systems (CRS) and
+Global Distribution Systems (GDS) in the airline industry.
+
+One of the main design goals of the ATS is to provide a data interface to 
+the Airware application that is "GDS agnostic". It does so by providing an abstraction
+layer between Airware and the low level communication protocols of the different GDS systems.
+
+<p>In doing so, it frees Airware application developers from the details 
+surrounding the connectivity to the GDS systems, and enables developers to focus
+on building functionality that adds value to the data stored in such systems.
+
+<p>The API underlying the Transaction Server aims to mimic the protocols
+used by the GDS systems at a low level, so that the different classes that 
+make up this API can serve as building blocks for creating more complex
+functionality.
+
+<p>Although the Transaction Server was built to connect 
+Airware <sup><font size="1">TM</font></sup>, the two products are independent
+from each other.  The request interface to the Transaction Server could easily
+be extended to support other data interfaces, such as, for example,
+an industry standard XML interface.
+</body>
+</html>

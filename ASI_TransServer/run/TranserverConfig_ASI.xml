@@ -1,0 +1,174 @@
+<!-- edited with XMLSpy v2005 sp2 U (http://www.altova.com) by David Fairchild (Datalex (USA), Inc.) -->
+<Configuration>
+	<Application>
+		<!-- the caption that appears on the Transerver GUI -->
+		<formCaption>ASI-Test</formCaption>
+		<listeningPort>8026</listeningPort>
+		<defaultHostCode>1A</defaultHostCode>
+		<!-- the default number of seconds to wait before actively polling the
+    connection when testing the host connection, defaults to 60  -->
+		<!--<defTestConnIntvl>60</defTestConnIntvl>-->
+		<!--
+	This setting should be set to whatever the ticketing method is for the
+	office ID that this transaction server is using, either 'Paper' or 'eTicket'
+	- defaults to 'Paper'
+        - paramater is *not* case-sensitive
+    -->
+		<ticketingMethod>Paper</ticketingMethod>
+		<!--
+		  Indicates whether a ticket printer is available; true by default.
+		  When false, the Ticket verb is forced to return a successful status code
+		  so that the ticketing process can be properly tested
+		-->
+		<enableTicketing>false</enableTicketing>
+		<maxRetry>2</maxRetry>	
+		
+		<useTestHarness>false</useTestHarness>
+		<requestDir>c:\SourceStarTeam\ASI_TransServer\run\requests</requestDir>
+		<responseDir>c:\SourceStarTeam\ASI_TransServer\run\responses</responseDir>
+
+	</Application>
+	<Logging>
+		<!-- path to the log files; the default is the
+         directory where the transerver.jar file is located. -->
+		<directory>logs</directory>
+		<!-- maxFileSize: maximum number of Log File in Bytes - 200k by default -->
+		<maxLogSize>200000</maxLogSize>
+		<!-- numDays: number of days to retain logs - 90 by default -->
+		<daysToRetain>30</daysToRetain>
+		<outputToConsole>true</outputToConsole>
+	</Logging>
+	
+	<!-- This was the original connection that was being used -->
+	<GdsConnectionList>
+		<!-- To displace a given GdsConnection temporarily, set enabled to "False"
+         and restart the Transaction Server -->
+		<GdsConnection enabled="False">
+			<type>AmadeusAPICrs</type>
+			<taName>AmadeusAPI-PDT</taName>
+			<hostCode>1A</hostCode>
+			<serverIP>195.27.163.89</serverIP>
+			<port>20002</port>
+			<corporateID>AIRWARESYSTEMS</corporateID>
+			<userID>OAK1S3100</userID>
+			<password>airwaredev</password>
+			<handlingTable>OAK1S3100</handlingTable>
+			<!-- used in NegoSpace -->
+			<ownerID>CDIS</ownerID>
+			<!-- used in NegoSpace -->
+			<!-- set this to false in production environment -->
+			<isTestEnv>true</isTestEnv>
+			<doTrace>true</doTrace>
+		</GdsConnection>
+		<GdsConnection enabled="False">
+			<type>AmadeusAPICrs</type>
+			<taName>AmadeusAPI-PDT</taName>
+			<hostCode>1A</hostCode>
+			<serverIP>195.27.163.89</serverIP>
+			<port>20002</port>
+			<corporateID>XMAX-PDT</corporateID>
+			<userID>MCODL2100</userID>
+			<password>XMAXPDT</password>
+			<handlingTable>MCODL2100</handlingTable>
+			<!-- used in NegoSpace -->
+			<ownerID>CDIS</ownerID>
+			<!-- used in NegoSpace -->
+			<!-- set this to false in production environment -->
+			<isTestEnv>true</isTestEnv>
+			<doTrace>true</doTrace>
+		</GdsConnection>
+		<GdsConnection enabled="False">
+			<type>AmadeusAPICrs</type>
+			<taName>AmadeusAPI</taName>
+			<hostCode>1A</hostCode>
+			<serverIP>194.76.166.179</serverIP>
+			<port>20002</port>
+			<corporateID>Xmax</corporateID>
+			<userID>MCODL2100</userID>
+			<password>DISNEYPROD</password>
+			<handlingTable>MCODL2100</handlingTable>
+			<!-- used in NegoSpace -->
+			<ownerID>CDIS</ownerID>
+			<!-- used in NegoSpace -->
+			<!-- set this to false in production environment -->
+			<isTestEnv>true</isTestEnv>
+			<doTrace>false</doTrace>
+		</GdsConnection>
+		
+		
+		<!-- From Disney configuration - using this one to view their PNRs -->
+		<GdsConnection enabled="False">
+			<type>AmadeusAPICrs</type>
+			<taName>AmadeusAPI-PDT</taName>
+			<hostCode>1A</hostCode>
+			<serverIP>195.27.163.89</serverIP>
+			<port>20002</port>
+			<corporateID>XMAX-PDT</corporateID>
+			<userID>MCODL2100</userID>
+			<password>XMAXPDT</password>
+			<handlingTable>MCODL2100</handlingTable>
+			<!-- used in NegoSpace -->
+			<ownerID>CDIS</ownerID>
+			<!-- used in NegoSpace -->
+			<!-- set this to false in production environment -->
+			<isTestEnv>true</isTestEnv>
+			<doTrace>false</doTrace>
+			<!-- 
+      Indicates whether a ticket printer is available; true by default.
+      When false, the Ticket verb is forced to return a successful status code
+      so that the ticketing process can be properly tested  -->
+			<enableTicketing>false</enableTicketing>
+		</GdsConnection>	
+		
+		
+    <GdsConnection enabled="False">
+      <type>AmadeusAPICrs</type>
+      <taName>AmadeusAPI-PDT</taName>
+      <hostCode>1A</hostCode>
+      <serverIP>apiv2.amadeus.net</serverIP>
+      <port>20002</port>
+      <corporateID>XMAX-PT</corporateID>
+      <userID>MCODL2104</userID>
+      <password>4VXKPV2Y</password>
+
+      <handlingTable>MCODL2104</handlingTable> <!-- used in NegoSpace -->
+      <ownerID>CDIS</ownerID> <!-- used in NegoSpace -->
+
+      <!-- set this to false in production environment -->
+      <isTestEnv>true</isTestEnv>
+      <doTrace>false</doTrace>
+    <!-- 
+      Indicates whether a ticket printer is available; true by default.
+      When false, the Ticket verb is forced to return a successful status code
+      so that the ticketing process can be properly tested  -->
+      <enableTicketing>false</enableTicketing>
+    </GdsConnection>		
+
+<!--  This is production -->
+    <GdsConnection enabled="True">
+      <type>AmadeusAPICrs</type>
+      <taName>AmadeusAPI-PDT</taName>
+      <hostCode>1A</hostCode>
+      <serverIP>apiv2.amadeus.net</serverIP>
+      <port>20002</port>
+      <corporateID>Xmax</corporateID>
+      <userID>MCODL2100</userID>
+      <password>DISNEYPROD</password>
+
+      <handlingTable>MCODL2100</handlingTable> <!-- used in NegoSpace -->
+      <ownerID>CDIS</ownerID> <!-- used in NegoSpace -->
+
+      <!-- set this to false in production environment -->
+      <isTestEnv>false</isTestEnv>
+      <doTrace>false</doTrace>
+    <!-- 
+      Indicates whether a ticket printer is available; true by default.
+      When false, the Ticket verb is forced to return a successful status code
+      so that the ticketing process can be properly tested  -->
+      <enableTicketing>false</enableTicketing>
+    </GdsConnection>		
+
+			
+		
+	</GdsConnectionList>
+</Configuration>

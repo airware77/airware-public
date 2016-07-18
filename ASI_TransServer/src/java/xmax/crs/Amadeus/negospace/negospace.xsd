@@ -1,0 +1,527 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<xsd:schema xmlns:xsd="http://www.w3.org/2000/10/XMLSchema">
+>
+-->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <xsd:annotation><xsd:documentation xml:lang="en">
+  This schema defines the Amadeus Negospace API which is part of the
+  PoweredAir API.  This schema was in turn used to generate java data binding
+  classes using castor 0.9.3.9.  
+
+  As of this writing, the Amadeus Negospace API is composed of the 5 following
+  query/reply pairs:
+
+    - PoweredAir_CreateNegoSpace
+    - PoweredAir_CreatePassiveNegoSpace
+    - PoweredAir_DisplayNegoSpace
+    - PoweredAir_ChangeNegoSpace
+    - PoweredAir_DeleteNegoSpace
+
+  Because of the many idiosyncrasies of the Negospace API, and the fact that
+  the AmadeusAPI as a whole does not support namespaces, the schema below does
+  not absolutely reflect the actual useage rules and useage of each
+  individual query/reply.
+
+  Instead, the schema below attempts to create a superset of xml elements/types
+  which can be used to generate java classes that can be shared by the classes
+  representing the 5 query/reply pairs.
+
+  This reduce the complexity of the schema, and keeps the number of the
+  data-binding classes to a minimum.
+  </xsd:documentation></xsd:annotation>
+
+  <!--
+    I. The top-level verbs of the NegoSpace Amadeus API
+  -->
+
+  <!-- the CreateNegoSpace request -->
+  <xsd:element name="PoweredAir_CreateNegoSpace">
+    <xsd:complexType>
+      <xsd:sequence>
+        <!-- The create nego query contains a single child element... -->
+        <xsd:element name="negotiatedSpaceInformation">
+          <xsd:complexType>
+            <xsd:sequence>
+              <!-- which contains the main three nodes of the query. -->
+              <xsd:element name="negotiatedSpaceDetails"    type="NegoDetailsType"/>
+              <xsd:element name="locationDetails"           type="LocationDetailsType"/>
+              <xsd:element name="linkedNegotiatedSpaceList" type="LinkedNegoListType" minOccurs="0" maxOccurs="6"/>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+
+  <!-- the CreateNegoSpace Reply -->
+  <xsd:element name="PoweredAir_CreateNegoSpaceReply">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="statusInformation" type="StatusInformationType"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+
+  <!-- the CreatePassiveNegoSpace request -->
+  <xsd:element name="PoweredAir_CreatePassiveNegoSpace">
+    <xsd:complexType>
+      <xsd:sequence>
+        <!-- The create nego query contains a single child element... -->
+        <xsd:element name="negotiatedSpaceInformation">
+          <xsd:complexType>
+            <xsd:sequence>
+              <!-- which contains the main three nodes of the query. -->
+              <xsd:element name="negotiatedSpaceDetails"    type="NegoDetailsType"/>
+              <xsd:element name="locationDetails"           type="LocationDetailsType"/>
+              <xsd:element name="linkedNegotiatedSpaceList" type="LinkedNegoListType" minOccurs="0" maxOccurs="6"/>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+
+
+  <!-- the CreateNegoSpace Reply -->
+  <xsd:element name="PoweredAir_CreatePassiveNegoSpaceReply">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="statusInformation" type="StatusInformationType"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+
+
+  <!-- the DisplayNegoSpace request -->
+  <xsd:element name="PoweredAir_DisplayNegoSpace">
+    <xsd:complexType>
+      <xsd:sequence>
+        <!-- The display nego query contains a single child element... -->
+        <xsd:element name="negoDisplayRequest">
+          <xsd:complexType>
+            <xsd:sequence>
+            <!-- ...which in turn contains the two main child nodes of the query -->
+              <xsd:element name="negotiatedSpaceDetails" type="NegoDetailsType"/>
+              <xsd:element name="locationDetails"        type="LocationDetailsType" minOccurs="0"/>
+              <xsd:element name="dateRange"              type="DateRangeType" minOccurs="0"/>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+
+  <!-- the DisplayNegoSpace response -->
+  <xsd:element name="PoweredAir_DisplayNegoSpaceReply">
+    <xsd:complexType>
+      <xsd:sequence>
+        <!-- error/warning messages, if any -->
+        <xsd:element name="statusInformation" type="StatusInformationType" minOccurs="0"/>
+
+        <!-- the negospace block information -->
+        <xsd:element name="negotiatedSpaceInfo"  minOccurs="0" maxOccurs="99">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="negotiatedSpaceDetails"    type="NegoDetailsType"/>
+              <xsd:element name="locationDetails"           type="LocationDetailsType"/>
+              <xsd:element name="linkedNegotiatedSpaceList" type="LinkedNegoListType" minOccurs="0" maxOccurs="6"/>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+
+  <!-- the ChangeNegoSpace request -->
+  <xsd:element name="PoweredAir_ChangeNegoSpace">
+    <xsd:complexType>
+      <xsd:sequence>
+
+        <xsd:element name="newNegoData">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="productDateInfo" type="ProductDateInfoType" minOccurs="0"/>
+              <xsd:element name="seatQuantity"    type="SeatQuantityType"    minOccurs="0"/>
+              <xsd:element name="additionalInfo"  type="AdditionalInfoType"  minOccurs="0"/>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+
+        <xsd:element name="negotiatedSpaceInfo" minOccurs="1" maxOccurs="99">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="negotiatedSpaceDetails"    type="NegoDetailsType"/>
+              <xsd:element name="locationDetails"           type="LocationDetailsType"/>
+              <xsd:element name="linkedNegotiatedSpaceList" type="LinkedNegoListType" minOccurs="0" maxOccurs="6"/>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+
+  <!-- the ChangeNegoSpace Reply -->
+  <xsd:element name="PoweredAir_ChangeNegoSpaceReply">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="statusInformation" type="StatusInformationType"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+
+
+  <!-- the CancelNegoSpace request -->
+  <xsd:element name="PoweredAir_CancelNegoSpace">
+    <xsd:complexType>
+      <xsd:sequence>
+        <!-- The cancel nego query may contain multiple of these... -->
+        <xsd:element name="negotiatedSpaceInfo" minOccurs="1" maxOccurs="99">
+          <xsd:complexType>
+            <xsd:sequence>
+              <!-- ...which in turn contain the three main child nodes of each query -->
+              <xsd:element name="negotiatedSpaceDetails"    type="NegoDetailsType"/>
+              <xsd:element name="locationDetails"           type="LocationDetailsType"/>
+              <xsd:element name="linkedNegotiatedSpaceList" type="LinkedNegoListType" minOccurs="0" maxOccurs="6"/>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+
+  <!-- the CancelNegoSpace Reply -->
+  <xsd:element name="PoweredAir_CancelNegoSpaceReply">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="statusInformation" type="StatusInformationType"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+
+
+  <!--
+    II. The Complex Types making up the top-level verbs described above
+  -->
+
+  <xsd:complexType name="NegoDetailsType">
+    <xsd:annotation><xsd:documentation>
+    The NegoDetailsType is the type of the negotiatedSpaceDetails node that
+    appears in all the negospace query verbs, and in the display reply.
+    The type below is generic and is meant to encompass all the query/reply
+    documents which contain it.  As such, this type does not properly reflect
+    the different validation rules that apply to this node in the different
+    documents. 
+    Since the AmadeusAPI is not namespace-aware, it is not possible to describe
+    these rules without generating a confusing amount of similar classes when
+    using Castor.
+    </xsd:documentation></xsd:annotation>
+
+    <xsd:sequence>
+      <xsd:element name="flightDetails"   type="FlightDetailsType"   minOccurs="0">
+        <xsd:annotation><xsd:documentation>
+        This node is actually compulsory, but the fact that it is mispelled in
+        the PoweredAir_ChangeNegoSpace query forces us to specify this node as
+        optional, when it is required in all documents
+        </xsd:documentation></xsd:annotation>
+      </xsd:element>
+      <xsd:element name="fligthDetails"   type="FlightDetailsType"   minOccurs="0">
+        <xsd:annotation><xsd:documentation>
+        Another Amadeus typo! this one occurs exclusively in the
+        PoweredAir_ChangeNegoSpace query
+        </xsd:documentation></xsd:annotation>
+      </xsd:element>
+      <xsd:element name="productInfo"     type="ProductInfoType"     minOccurs="0" maxOccurs="2"/>
+      <xsd:element name="productDateInfo" type="ProductDateInfoType" minOccurs="0"/>
+      <xsd:element name="seatQuantity"    type="SeatQuantityType"    minOccurs="0"/>
+      <xsd:element name="ownerId"         type="xsd:string"          minOccurs="0"/>
+      <xsd:element name="additionalInfo"  type="AdditionalInfoType"  minOccurs="0"/>
+      <xsd:element name="nego1Aid"        type="xsd:int"    minOccurs="0">
+        <xsd:annotation><xsd:documentation>
+        a numeric key that identifies multiple instances of the same
+        flight/departure date/class block (alternate key for Tour Reference)
+        </xsd:documentation></xsd:annotation>
+      </xsd:element>
+      <xsd:element name="negoRloc"        type="xsd:string" minOccurs="0"/>
+      <xsd:element name="eventName"       type="xsd:string" minOccurs="0"/>
+      <xsd:element name="handlingTable"   type="xsd:string" minOccurs="0"/>
+      <xsd:element name="signLevelHandlingTable" type="xsd:string"  minOccurs="0"/>
+      <xsd:element name="allotmentStatus" type="xsd:string" minOccurs="0">
+        <xsd:annotation><xsd:documentation>Only displayed in PoweredAir_DisplayNegoSpaceReply</xsd:documentation></xsd:annotation>
+      </xsd:element>
+      <xsd:element name="searchOption"    type="xsd:string" minOccurs="0">
+        <xsd:annotation><xsd:documentation>Only used in PoweredAir_DisplayNegoSpace</xsd:documentation></xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <!--
+  <xsd:complexType name="NegoDetailsDisplayType">
+    <xsd:annotation><xsd:documentation>
+    This should be the same structure as above, but there exists an apparent
+    AmadeusAPI bug, whereby what appears as the element 'productDateInfo' in
+    the other documents appears in this document as productInfo; this type is
+    a work-around that bug.
+    </xsd:documentation></xsd:annotation>
+
+    <xsd:sequence>
+      <xsd:element name="flightDetails"   type="FlightDetailsType"/>
+      <xsd:element name="productInfo"     type="ProductInfoDisplayType" minOccurs="0" maxOccurs="2"/>
+      <xsd:element name="seatQuantity"    type="SeatQuantityType"    minOccurs="0"/>
+      <xsd:element name="ownerId"         type="xsd:string"          minOccurs="0"/>
+      <xsd:element name="additionalInfo"  type="AdditionalInfoType"  minOccurs="0"/>
+      <xsd:element name="nego1Aid"        type="xsd:int"    minOccurs="0">
+        <xsd:annotation><xsd:documentation>The Amadeus identifier</xsd:documentation></xsd:annotation>
+      </xsd:element>
+      <xsd:element name="negoRloc"        type="xsd:string" minOccurs="0"/>
+      <xsd:element name="eventName"       type="xsd:string" minOccurs="0"/>
+      <xsd:element name="handlingTable"   type="xsd:string" minOccurs="0"/>
+      <xsd:element name="signLevelHandlingTable" type="xsd:string"  minOccurs="0"/>
+      <xsd:element name="allotmentStatus" type="xsd:string" minOccurs="0">
+        <xsd:annotation><xsd:documentation>Only displayed in PoweredAir_DisplayNegoSpaceReply</xsd:documentation></xsd:annotation>
+      </xsd:element>
+      <xsd:element name="searchOption"    type="xsd:string" minOccurs="0">
+        <xsd:annotation><xsd:documentation>Only used in PoweredAir_DisplayNegoSpace</xsd:documentation></xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="NegotiatedSpaceInfoDisplayType">
+    <xsd:annotation><xsd:documentation>
+    This high-level type is used in the PoweredAir_DisplayNegoSpaceReply; it
+    was created because both the Display and 
+    
+    </xsd:documentation></xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="negotiatedSpaceDetails"    type="NegoDetailsDisplayType"/>
+      <xsd:element name="locationDetails"           type="LocationDetailsType"/>
+      <xsd:element name="linkedNegotiatedSpaceList" type="LinkedNegoListType" minOccurs="0" maxOccurs="6"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  -->
+  
+
+  <xsd:complexType name="FlightDetailsType">
+    <xsd:sequence>
+      <xsd:element name="airlineCode"       type="CarrierCodeType"/>
+      <xsd:element name="flightNumber"      type="xsd:int"     minOccurs="0"/>
+      <xsd:element name="flightSuffix"      type="xsd:string"  minOccurs="0"/>
+      <xsd:element name="identifierOfClass" type="xsd:string"  minOccurs="0"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="ProductInfoType">
+    <xsd:sequence>
+      <xsd:element name="flightDepartureDate"     type="xsd:string" minOccurs="0">
+        <xsd:annotation><xsd:documentation>
+        This should be a required node, but because what should be the
+        'productDateInfo' node is displayed as the 'productInfo' node in
+        PoweredAir_DisplayNegoSpaceReply documents, we are forced to make this
+        an optional node so as to keep the xsd simple.
+        </xsd:documentation></xsd:annotation>
+      </xsd:element>
+      <xsd:element name="commencementDateForSale" type="xsd:string" minOccurs="0">
+        <xsd:annotation><xsd:documentation>
+        This only appears here in PoweredAir_DisplayNegoSpaceReply documents;
+        it was obviously meant to appear in the node below, where it appears
+        for all other query/replies
+        </xsd:documentation></xsd:annotation>
+      </xsd:element>
+      <xsd:element name="expiryNegoDate"          type="xsd:string" minOccurs="0">
+        <xsd:annotation><xsd:documentation>
+        This only appears here in PoweredAir_DisplayNegoSpaceReply documents;
+        it was obviously meant to appear in the node below, where it appears
+        for all other query/replies
+        </xsd:documentation></xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="ProductDateInfoType">
+    <xsd:sequence>
+      <xsd:element name="commencementDateForSale" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="expiryNegoDate"          type="xsd:string" minOccurs="0"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <!--
+  <xsd:complexType name="ProductInfoDisplayType">
+    <xsd:annotation><xsd:documentation>
+    This type is used in the complex type 'NegoDetailsDisplayType' and is used
+    as part of the work-around of the bug described in that class
+    </xsd:documentation></xsd:annotation>
+
+    <xsd:sequence>
+      <xsd:element name="flightDepartureDate"     type="xsd:string" minOccurs="0"/>
+      <xsd:element name="commencementDateForSale" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="expiryNegoDate"          type="xsd:string" minOccurs="0"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  -->
+
+
+
+  <xsd:complexType name="SeatQuantityType">
+    <xsd:sequence>
+      <xsd:element name="numberOfAllocatedSeat" type="xsd:int"/>
+      <xsd:element name="numberOfSoldSeat" type="xsd:int" minOccurs="0">
+        <xsd:annotation><xsd:documentation>Only displayed in PoweredAir_DisplayNegoSpaceReply</xsd:documentation></xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="AdditionalInfoType">
+    <xsd:sequence>
+      <xsd:element name="negoReductionDate"     type="xsd:string" minOccurs="0"/>
+      <xsd:element name="percentageOfReduction" type="xsd:byte"   minOccurs="0"/>
+      <xsd:element name="tourName"              type="xsd:string" minOccurs="0"/>
+      <xsd:element name="tourReference"         type="xsd:string" minOccurs="0"/>
+      <xsd:element name="authorizationCode"     type="xsd:string" minOccurs="0"/>
+      <xsd:element name="typeOfNegoLink"        type="xsd:string" minOccurs="0"/>
+      <xsd:element name="alidValue"             type="xsd:string" minOccurs="0">
+        <xsd:annotation><xsd:documentation>The Airline Record Locator</xsd:documentation></xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="LocationDetailsType">
+    <xsd:sequence>
+      <xsd:element name="origin"      type="CityCodeType"/>
+      <xsd:element name="destination" type="CityCodeType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="LinkedNegoListType">
+    <xsd:sequence>
+      <xsd:element name="linkedNego">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="airlineCode"       type="CarrierCodeType"/>
+            <xsd:element name="flightNumber"      type="xsd:int"/>
+            <xsd:element name="suffixOfFlight"    type="xsd:string"  minOccurs="0"/>
+            <xsd:element name="changeDateIndic"   type="xsd:byte">
+              <!--
+              <xsd:annotation><xsd:documentation>
+                One of the following:
+                '0': Same Day
+                '1': Today +1
+                '2': Today +2
+                '8': Today -1
+              </xsd:documentation></xsd:annotation>
+              -->
+            </xsd:element>
+            <xsd:element name="identifierOfClass" type="xsd:string"/>
+            <xsd:element name="originCity"        type="CityCodeType"/>
+            <xsd:element name="destinationCity"   type="CityCodeType"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="DateRangeType">
+    <xsd:sequence>
+      <xsd:element name="dateInformation">
+         <xsd:complexType>
+           <xsd:sequence>
+             <xsd:element name="effectiveDate"   type="xsd:string" minOccurs="0"/>
+             <xsd:element name="discontinueDate" type="xsd:string" minOccurs="0"/>
+             <xsd:element name="operationDays"   type="xsd:int"    minOccurs="0"/>
+           </xsd:sequence>
+         </xsd:complexType>
+       </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:simpleType name="CityCodeType">
+    <xsd:restriction base="xsd:string">
+      <xsd:pattern value="[A-Z]{3}"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
+
+  <xsd:simpleType name="CarrierCodeType">
+    <xsd:restriction base="xsd:string">
+      <xsd:pattern value="[A-Z]{2,3}"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <!--
+  <xsd:simpleType name="ChangeDateIndicType">
+    <xsd:restriction base="byte">
+      <xsd:enumeration value="0">
+        <xsd:annotation><xsd:documentation xml:lang="en">Same day</xsd:documentation></xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="1">
+        <xsd:annotation><xsd:documentation xml:lang="en">Today +1</xsd:documentation></xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="2">
+        <xsd:annotation><xsd:documentation xml:lang="en">Today +2</xsd:documentation></xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="8">
+        <xsd:annotation><xsd:documentation xml:lang="en">Today -1</xsd:documentation></xsd:annotation>
+      </xsd:enumeration>
+    </xsd:restriction>
+  </xsd:simpleType>
+  -->
+
+  <!-- 
+    The  following type is used by the Reply structures for Create, Change and
+    Cancel NegoSpace
+  -->
+
+  <xsd:complexType name="StatusInformationType">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">
+      This type is included in the statusInformation node that is returned by
+      the response structures for Create, Display, Change and Cancel Negospace;
+      This set of nodes contains error/warning information in the form of codes
+      and multiline messages.
+      In the case of Create, Change and Cancel, it is the only node returned;
+      In the case of Display, it occurs if there was a problem displaying the
+      NegotiatedSpaceInformation, or if a warning/informational
+      messages is passed along with the NegotiatedSpaceInformation.
+      The Display reply returns the node 'erroOrWarningInfo', rather than
+      'errorOrWarningInfo'
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="errorOrWarningInfo" type="ErrorOrWarningInfoType" minOccurs="0"/>
+      <xsd:element name="erroOrWarningInfo"  type="ErrorOrWarningInfoType" minOccurs="0"/>
+      <xsd:element name="textInformation"    type="TextInformationType"    minOccurs="0"/>
+    </xsd:sequence>
+  </xsd:complexType><!-- end StatusInformationType -->
+
+  <xsd:complexType name="ErrorOrWarningInfoType">
+    <xsd:sequence>
+      <xsd:element name="error">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="code"            type="xsd:string"/>
+            <xsd:element name="type"            type="xsd:string"/>
+            <xsd:element name="listResponsible" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="TextInformationType">
+    <xsd:sequence>
+      <xsd:element name="freeTextQualification">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="codedIndicator" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="freeText" type="xsd:string" maxOccurs="5"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+</xsd:schema>

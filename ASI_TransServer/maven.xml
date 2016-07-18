@@ -1,0 +1,37 @@
+<project xmlns:j="jelly:core" xmlns:maven="jelly:maven" xmlns:ant="jelly:ant">
+
+	<preGoal name="java:jar-resources">
+		<attainGoal name="populateTokens"/>
+	</preGoal>
+
+	<preGoal name="test:test-resources">
+		<attainGoal name="populateTokens"/>
+	</preGoal>
+
+	<!-- This is empty but necessary as a placeholder to trigger token postGoals in derived projects -->
+	<goal name="populateTokens" description="used to set version parameters">
+
+		<tstamp>
+			<format property="build.time" pattern="yyyyMMdd.HH:mm"/>
+		</tstamp>
+
+		<echo>Version number = '${pom.currentVersion}'</echo>
+		<echo>Version date = '${build.time}'</echo>
+		
+		<filter token='VERSION.NUMBER'      value='${pom.currentVersion}'/>
+		<filter token="VERSION.DATE"     value="${build.time}"/>
+			
+		<!-- filter token='VERSION.NUMBER'      value='1.5.6.12'/ -->
+		<!-- filter token="VERSION.DATE"     value="Nov 11 2009"/ -->
+				
+	</goal>
+	
+	<goal name="copyjars" description="This will copy jars to the local repository" prereqs="">
+		<echo>Copying jars to local repository</echo>
+		<copy file="./jars/MiscUtil.jar" todir="${maven.repo.local}/asi/jars" overwrite="true" verbose="true"/>
+		<copy file="./jars/oroMatcher-1.0.7.jar" todir="${maven.repo.local}/asi/jars" overwrite="true" verbose="true"/>
+		<copy file="./jars/xerces.jar" todir="${maven.repo.local}/asi/jars" overwrite="true" verbose="true"/>
+		<copy file="./jars/castor-0.9.3.9-xml.jar" todir="${maven.repo.local}/castor/jars" overwrite="true" verbose="true"/>
+	</goal>
+
+</project>
